@@ -8,6 +8,9 @@ const App = () => {
   return (
     <Router>
       <div className='container'>
+      <Helmet>
+        <meta name="google-adsense-account" content="ca-pub-1738524832177465" />
+      </Helmet>
         <AppNavbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -97,9 +100,7 @@ const Home = () => {
 
   return (
     <div className="box">
-      <Helmet>
-        <meta name="google-adsense-account" content="ca-pub-1738524832177465" />
-      </Helmet>
+
       <marquee behavior="" direction="">Pastikan angka kolom 1 dan kolom 2 sama untuk menbapatkan kemenangan.</marquee>
       <h1 className="box_spin">FreeBet</h1>
 
