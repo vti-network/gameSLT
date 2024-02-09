@@ -1,0 +1,257 @@
+import React, { useEffect, useRef, useState } from 'react';
+import Chart from 'chart.js/auto';
+
+const Chart_game = () => {
+    const chartRef = useRef(null);
+    const [money, setMoney] = useState(10);
+    const [result, setResult] = useState('');
+    let chartInstance = useRef(null);
+    let counter = 0;
+
+    const [value1, setValue1] = useState('0');
+    const [value2, setValue2] = useState('0');
+    const [value3, setValue3] = useState('0');
+    const [value4, setValue4] = useState('0');
+    const [value5, setValue5] = useState('0');
+
+    let newDataPoint = 0;
+
+    useEffect(() => {
+        if (chartRef && chartRef.current) {
+            const ctx = chartRef.current.getContext('2d');
+            chartInstance.current = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Continuous Data',
+                        data: [],
+                        borderColor: 'blue',
+                        fill: false,
+                    }]
+                },
+                options: {
+                    animation: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                        },
+                        y: {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                display: true,
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        return () => {
+            if (chartInstance.current) {
+                chartInstance.current.destroy();
+            }
+        };
+    }, []);
+
+    useEffect(() => {
+        const updateChart = () => {
+            counter++;
+            newDataPoint = 50 + Math.floor(Math.random() * 50); // Update newDataPoint with new random value
+            chartInstance.current.data.labels.push(counter);
+            chartInstance.current.data.datasets[0].data.push(newDataPoint);
+
+            if (chartInstance.current.data.labels.length > 20) {
+                chartInstance.current.data.labels.shift();
+                chartInstance.current.data.datasets[0].data.shift();
+            }
+
+            chartInstance.current.update();
+        };
+
+        const interval = setInterval(updateChart, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const handleChange = (e) => {
+        const inputValue = parseInt(e.target.value); // Convert input value to integer
+        const inputName = e.target.name;
+
+        if (!isNaN(inputValue)) { // Check if input value is a valid number
+            switch (inputName) {
+                case "input1":
+                    setValue1(inputValue);
+                    break;
+                case "input2":
+                    setValue2(inputValue);
+                    break;
+                case "input3":
+                    setValue3(inputValue);
+                    break;
+                case "input4":
+                    setValue4(inputValue);
+                    break;
+                case "input5":
+                    setValue5(inputValue);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    const handleBetUp = () => {
+        setTimeout(() => {
+            setValue1('0')
+            setValue2('0')
+            setValue3('0')
+            setValue4('0')
+            setValue5('0')
+        }, 100);
+
+        setTimeout(() => {
+            setValue1(newDataPoint);
+        }, 1000);
+        setTimeout(() => {
+            setValue2(newDataPoint);
+        }, 2000);
+        setTimeout(() => {
+            setValue3(newDataPoint);
+        }, 3000);
+        setTimeout(() => {
+            setValue4(newDataPoint);
+        }, 4000);
+        setTimeout(() => {
+            setValue5(newDataPoint);
+            updateResultUP();
+        }, 5000);
+    };
+
+    const handleBetDown = () => {
+        setTimeout(() => {
+            setValue1('0')
+            setValue2('0')
+            setValue3('0')
+            setValue4('0')
+            setValue5('0')
+        }, 100);
+
+        setTimeout(() => {
+            setValue1(newDataPoint);
+        }, 1000);
+        setTimeout(() => {
+            setValue2(newDataPoint);
+        }, 2000);
+        setTimeout(() => {
+            setValue3(newDataPoint);
+        }, 3000);
+        setTimeout(() => {
+            setValue4(newDataPoint);
+        }, 4000);
+        setTimeout(() => {
+            setValue5(newDataPoint);
+            updateResultDOWN();
+        }, 5000);
+    };
+
+    const updateResultUP = () => {
+        if (value1 < value5) {
+            setResult('Win');
+            setMoney(prevMoney => prevMoney + 100);
+        } else {
+            setResult('Loss');
+            setMoney(prevMoney => prevMoney - 1);
+        }
+    };
+
+    const updateResultDOWN = () => {
+        if (value1 > value5) {
+            setResult('Win');
+            setMoney(prevMoney => prevMoney + 100);
+        } else {
+            setResult('Loss');
+            setMoney(prevMoney => prevMoney - 1);
+        }
+    };
+
+    return (
+        <div className="box">
+            <div className="box_box">
+                <div className="box_spin">
+                    <p>
+                        Free game
+                    </p>
+                </div>
+
+                <canvas ref={chartRef}></canvas>
+                <br />
+                <br />
+                               {/*  */}
+                               <div className="box_spin">
+                <input 
+                type="text" 
+                name="input1" // Tambahkan name untuk setiap input
+                className="input_spin"
+                placeholder="1"
+                value={value1}
+                onChange={handleChange}
+                />
+                <input 
+                type="text" 
+                name="input2"
+                className="input_spin"
+                placeholder="1"
+                value={value2}
+                onChange={handleChange}
+                />
+                <input 
+                type="text" 
+                name="input3"
+                className="input_spin"
+                placeholder="1"
+                value={value3}
+                onChange={handleChange}
+                />
+                <input 
+                type="text" 
+                name="input4"
+                className="input_spin"
+                placeholder="1"
+                value={value4}
+                onChange={handleChange}
+                />
+                <input 
+                type="text" 
+                name="input5"
+                className="input_spin"
+                placeholder="1"
+                value={value5}
+                onChange={handleChange}
+                />
+            </div>
+                               {/*  */}
+                <br />
+                <div className="box_spin">
+                    <button className="btn_spin" onClick={handleBetUp}>BET UP</button>
+                    <button className="btn_spin" onClick={handleBetDown}>BET DOWN</button>
+                </div>
+
+                <h1 className="box_spin">$
+                    <span id='money' style={{ color: "red", marginLeft: "10px" }}>
+                        {money}
+                    </span>
+                </h1>
+                <h1 className="box_spin">Result
+                    <span id='result' style={{ color: "red", marginLeft: "10px" }}>
+                        {result}
+                    </span>
+                </h1>
+            </div>
+        </div>
+    );
+};
+
+export default Chart_game;

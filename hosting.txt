@@ -1,0 +1,90 @@
+const http = require('http');
+const Myheader = {'Content-Type': 'application/json'}; // Set Content-Type to application/json
+const Respone_302 = {success: false, message: 'Not Found'};
+
+// Routing
+const server = http.createServer(function(req, res) {
+    // Set CORS headers
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allow GET, POST, and OPTIONS requests
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // Allow Content-Type header
+    
+    if (req.method === 'OPTIONS') {
+        // Handle preflight requests
+        res.writeHead(200);
+        res.end();
+    } else if (req.method === 'GET') {
+        welcome(req, res);
+    } else if (req.method === 'POST') {
+        handleLogin(req, res);
+    } else {
+        res.writeHead(404, {'Content-Type': 'text/plain'}); // Not Found
+        res.end('Page not found');
+    }
+});
+
+// GET
+function welcome(req, res) {
+    res.writeHead(200, Myheader);
+    const responseData = {
+        success: true,
+        message: 'Server is working',
+    };
+    res.end(JSON.stringify(responseData)); // Send JSON response
+}
+
+// POST
+function handleLogin(req, res) {
+    let body = '';
+
+    req.on('data', (chunk) => {
+        body += chunk.toString();
+    });
+
+    req.on('end', () => {
+        const { email, password, key, j_angka, j_bet } = JSON.parse(body);
+        if (key === 'hellobet') {
+            res.writeHead(200, Myheader);
+            function NumBet() {
+                return Math.floor(Math.random() * j_angka) + 1;
+            }
+            const responseData = { success: true, message: 'Key successful', result: NumBet() };
+            res.end(JSON.stringify(responseData));
+        } else if (key === 'hellobet2') {
+            function NumBet() {
+                return Math.floor(Math.random() * j_angka) + 1;
+            }
+            const result = NumBet();
+            if (result === parseInt(j_bet)) {
+                const responseData = {
+                    success: true,
+                    message: 'Bet successful',
+                    bet_angka: j_bet,
+                    bet_result: result,
+                    result: 'win',
+                };
+                res.writeHead(200, Myheader);
+                res.end(JSON.stringify(responseData));
+            } else {
+                const responseData = {
+                    success: true,
+                    message: 'Bet successful',
+                    bet_angka: j_bet,
+                    bet_result: result,
+                    result: 'lose',
+                };
+                res.writeHead(200, Myheader);
+                res.end(JSON.stringify(responseData));
+            }
+        } else if (email === 'azpwkk@gmail.com' && password === 'azpwkk') {
+            res.writeHead(200, Myheader);
+            const responseData = { success: true, message: 'Login successful' };
+            res.end(JSON.stringify(responseData));
+        } else {
+            res.writeHead(302, Myheader);
+            res.end(JSON.stringify(Respone_302));
+        }
+    });
+}
+
+server.listen(3000); // Listening on port 3000

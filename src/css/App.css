@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo+Thambi|Muli|Righteous');
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Righteous', cursive;
+}
+.container {
+  margin: 0 auto;
+  padding: 0 auto;
+}
+
+.box {
+  margin: 0 auto;
+  padding: 0 auto;
+
+  margin-top: 100px;
+  margin-left: 10px;
+  margin-right: 10px;
+
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.137);
+}
+
+.box_spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.input_spin {
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  /* space */
+  border-radius: 10px 10px 10px;
+  margin-left: 3px;
+}
+
+.btn_spin {
+  width: 250px;
+  padding: 10px 10px;
+  border-radius: 10px 10px 10px;
+  font-size: 20px;
+}
+.btn_spin:hover {
+  background-color: red;
+  color: aliceblue;
+}
+.btn_spin_UP {
+  width: 250px;
+  padding: 10px 10px;
+  border-radius: 10px 10px 10px;
+  font-size: 20px;
+}
+.btn_spin_UP:hover {
+  background-color: rgb(0, 162, 255);
+  color: aliceblue;
+}
+.box_box {
+  margin-top: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* table */
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+th, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  background-color: black;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+tr[data-result="lose"] {
+  background-color: #ddd;
+  color: red;
+}
+
+tr[data-result="win"] {
+  background-color: #ddd;
+  color: blue;
+}
+tr[betResultMessage="lose"] {
+  background-color: #ddd;
+  color: red;
+}
+
+tr[betResultMessage="win"] {
+  background-color: #ddd;
+  color: blue;
+}
+
+/* win */
+.fireworks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: radial-gradient(circle, #ff0000 20%, transparent 20%),
+              radial-gradient(circle, #00ff00 20%, transparent 20%),
+              radial-gradient(circle, #0000ff 20%, transparent 20%);
+  background-position: left top, right top, center bottom;
+  background-repeat: repeat-x, repeat-x, repeat-y;
+  background-size: 30px 30px, 30px 30px, 30px 30px;
+  animation: fireworks 3s linear infinite;
+}
+
+@keyframes fireworks {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+} 
+
+
