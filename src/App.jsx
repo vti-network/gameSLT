@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AppNavbar from './component/Navbar';
 import './css/App.css'
@@ -7,6 +8,7 @@ const App = () => {
   return (
     <Router>
       <div className='container'>
+        <Analytics />
         <AppNavbar />
         <Routes>
           <Route path="/" element={<Home />} />
