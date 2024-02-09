@@ -51,7 +51,7 @@ const Home = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ key: "hellobet2", j_angka: 9, j_bet: j_bet })
+      body: JSON.stringify({ key: "hellobet2", j_angka: 10, j_bet: j_bet })
     })
     .then(response => response.json())
     .then(data => {
@@ -70,20 +70,18 @@ const Home = () => {
   const validate = () => {
     if (result === 'win'){
       if (betResult === 9 ){
-        setMoney(parseInt(money) + 50);
-        //alert('mantap gan !!!!!!!!!');
-          setShowFireworks(true); // Show fireworks if the conditions are met
+        setMoney(parseInt(money) + 100);
+          setShowFireworks(true);
           setTimeout(() => {
-            setShowFireworks(false); // Hide fireworks after 10 seconds
+            setShowFireworks(false);
           }, 10000);
-        
-      } else {
+          //setResult('super win');
+      }
+      else {
         setMoney(parseInt(money) + 10);
+        //setResult(data.result);
       }
     } 
-    else if (betResult === 9){
-      // Handle if bet result is 9
-    }
     else {
       setMoney(parseInt(money) - 1);
     }
@@ -98,7 +96,8 @@ const Home = () => {
 
   return (
     <div className="box">
-      <h1 className="box_spin">Free Bet</h1>
+      <marquee behavior="" direction="">Pastikan angka kolom 1 dan kolom 2 sama untuk menbapatkan kemenangan.</marquee>
+      <h1 className="box_spin">FreeBet</h1>
 
       <div className="box_spin">
         <input 
@@ -111,7 +110,7 @@ const Home = () => {
           style={{color:'red'}}
         />
         <h1 style={{color:'yellow',marginLeft:'10px',marginRight:'10px'}}>
-          VS
+          =
         </h1>
         <input 
           type="text" 
@@ -132,7 +131,7 @@ const Home = () => {
           <span style={{marginRight:'10px',color:'red'}}> {betAngka}</span>
         </span>
         <span style={{fontSize:'bold'}}>Bet Result:
-          <span style={{marginRight:'10px',color:'red'}}> {betResult}</span>
+          <span style={{marginRight:'10px',color:'blue'}}> {betResult}</span>
         </span>
         <span style={{fontSize:'bold'}}>Status:
           <span style={{marginRight:'10px',color:'red'}}> {betResultMessage}</span>
@@ -141,11 +140,21 @@ const Home = () => {
       </div>
 
       <div className="box_box">
-        <h1 className="box_spin">$
+        <h1 className="box_spin">money: $
           <span id='money' style={{color:"red", marginLeft:"10px"}}>
             {money}
           </span>
         </h1>
+      </div>
+      <div className="box_box">
+        <span className="box_spin">super win 
+          <h1  style={{color:"red", marginLeft:"10px",marginRight:"10px"}}>
+            9 
+          </h1><h3> +100</h3>
+        </span>
+        <span className="box_spin">
+          all win +10
+        </span>
       </div>
 
       <div className="box_box">
